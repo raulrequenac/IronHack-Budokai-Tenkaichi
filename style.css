@@ -1,0 +1,84 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  background-image: url("images/matadero.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: inline-grid;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+button {
+  background: none;
+
+}
+
+canvas {
+  border: 1px solid;
+  display: none;
+}
+
+.none {
+  display: none;
+}
+
+body {
+  background-image: url("images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.size {
+  width: 84rem;
+  height: 45rem;
+}
+
+.title {
+  font-family: 'Permanent Marker',
+    cursive;
+  font-size: 5rem;
+  color: darkorange;
+  -webkit-text-stroke: 5px black;
+}
+
+.press-start {
+  font-family: 'Press Start 2P',
+    cursive;
+  color: white;
+  margin: 3rem;
+  font-size: 2rem;
+  animation-name: press-start-animation;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes press-start-animation {
+  0% {
+    transform: scale(1)
+  }
+
+  50% {
+    transform: scale(1.2)
+  }
+
+  100% {
+    transform: scale(1)
+  }
+}
