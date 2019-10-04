@@ -3,11 +3,25 @@ const ctx = canvas.getContext("2d");
 
 const game = new Game(ctx);
 
+let start = true;
 document.addEventListener("keypress", () => {
-  canvas.classList.toggle("none");
-  document.getElementById("start").classList.toggle("none");
+  if (start) {
+    document.querySelector("audio").muted = true;
+    new Audio("audio/start-game.ogg").play();
 
-  game.run();
+    setTimeout(() => {
+      canvas.classList.remove("none");
+      document.getElementById("status-bar").classList.remove("none");
+      document.getElementById("bars").classList.remove("none");
+      document.getElementById("start").classList.add("none");
+      game.run();
+    }, 2000);
+
+    start = false;
+  }
 });
 
-setTimeout(() => document.querySelector("audio").play(), 500);
+document.addEventListener(
+  "click",
+  () => document.querySelector("audio").play()
+);

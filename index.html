@@ -1,26 +1,48 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>IronHack Budokai Tenkaichi</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>IronHack Budokai Tenkaichi</title>
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-
-<body>
-  <div id="start" class="size">
-    <h1 class="title">Ironhack Budokai Tenkaichi</h1>
-    <button><h1 class="press-start">PRESS ANY KEY TO START</h1></button>
-    <audio muted loop controls autoplay preload="auto" class="">
-      <source src="audio/intro.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-  <canvas id="my-canvas" class="size none"></canvas>
-  <script src="game.js"></script>
-  <script src="script.js"></script>
-</body>
-
+  <body>
+    <div id="start" class="size">
+      <h1 class="title">Ironhack Budokai Tenkaichi</h1>
+      <button><h1 class="press-start">PRESS ANY KEY TO START</h1></button>
+      <audio loop controls autoplay preload="auto" class="none">
+        <source src="audio/intro.mp3" type="audio/mpeg" />
+      </audio>
+    </div>
+    <div id="status-bar" class="size none">
+      <img src="images/status-bar.png" class="img" />
+    </div>
+    <div id="bars" class="none">
+      <div class="bars">
+        <div id="health-raul" class="health"></div>
+        <div id="ki1-raul" class="ki"></div>
+        <div id="ki2-raul" class="ki"></div>
+      </div>
+      <div class="bars">
+        <div id="health-fran" class="health"></div>
+        <div id="ki1-fran" class="ki"></div>
+        <div id="ki2-fran" class="ki"></div>
+      </div>
+    </div>
+    <canvas id="my-canvas" class="none" width="1342" height="715"></canvas>
+    <script src="fighter.js"></script>
+    <script src="raul.js"></script>
+    <script src="fran.js"></script>
+    <script src="game.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
