@@ -4,8 +4,9 @@ class Raul extends Fighter {
 
     this.img.src = "images/raul.png";
 
+    this.keyJump = 87;
     this.keyLeft = 65;
-    this.keychargeKi = 87;
+    this.keychargeKi = 67;
     this.keyProtect = 83;
     this.keyRight = 68;
     this.keyEnergyBlast = 90;

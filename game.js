@@ -35,6 +35,9 @@ class Game {
   _draw() {
     this.raul.draw();
     this.fran.draw();
+
+    this.raul.direction(this.fran);
+    this.fran.direction(this.raul);
   }
 
   _move() {
@@ -43,14 +46,8 @@ class Game {
   }
 
   _checkCollisions() {
-    if (this.raul.x + this.raul.w > this.fran.x &&
-      this.raul.x < this.fran.x) {
-      this.raul.x = this.fran.x - this.raul.w;
-    } else if (this.raul.x + this.raul.w > this.fran.x + this.fran.w &&
-      this.raul.x < this.fran.x + this.fran.w) {
-      this.raul.x = this.fran.x + this.fran.w;
-    }
-
+    this.raul.collideRival(this.fran);
+    this.fran.collideRival(this.raul);
   }
 
   _addListener(name, fn) {

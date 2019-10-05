@@ -6,8 +6,9 @@ class Fran extends Fighter {
 
     this.img.src = "images/fran.png";
 
+    this.keyJump = 38;
     this.keyLeft = 37;
-    this.keychargeKi = 38;
+    this.keychargeKi = 16;
     this.keyProtect = 40;
     this.keyRight = 39;
     this.keyEnergyBlast = 219;
