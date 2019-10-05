@@ -2,8 +2,6 @@ class Game {
   constructor(ctx) {
     this.ctx = ctx;
 
-    this.raul = new Raul(ctx);
-    this.fran = new Fran(ctx);
 
     this.intervalID = null;
 
@@ -11,6 +9,12 @@ class Game {
     this.audio.loop = true;
 
     this.gameOverAudio = new Audio("");
+
+    this.onkeyDownListeners = [];
+    this.onkeyUpListeners = [];
+
+    this.raul = new Raul(ctx, this._addListener.bind(this));
+    this.fran = new Fran(ctx, this._addListener.bind(this));
   }
 
   run() {
@@ -20,8 +24,12 @@ class Game {
       this._clear();
       this._draw();
       this._move();
-      //      this._checkCollisions();
+      this._checkCollisions();
     }, 1000 / 60);
+  }
+
+  _clear() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   _draw() {
@@ -34,7 +42,30 @@ class Game {
     this.fran.move();
   }
 
-  _clear() {
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  _checkCollisions() {
+    if (this.raul.x + this.raul.w > this.fran.x &&
+      this.raul.x < this.fran.x) {
+      this.raul.x = this.fran.x - this.raul.w;
+    } else if (this.raul.x + this.raul.w > this.fran.x + this.fran.w &&
+      this.raul.x < this.fran.x + this.fran.w) {
+      this.raul.x = this.fran.x + this.fran.w;
+    }
+
+  }
+
+  _addListener(name, fn) {
+    if (name === 'onkeydown') {
+      this.onkeyDownListeners.push(fn);
+    } else if (name === 'onkeyup') {
+      this.onkeyUpListeners.push(fn);
+    }
+
+    this._setListeners();
+  }
+
+  _setListeners() {
+    document.onkeydown = e => this.onkeyDownListeners.forEach(fn => fn(e));
+    document.onkeyup = e => this.onkeyUpListeners.forEach(fn => fn(e));
+
   }
 }

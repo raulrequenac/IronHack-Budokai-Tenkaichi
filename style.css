@@ -74,7 +74,7 @@
 }
 
 #ki1-raul {
-  width: 285px;
+  width: 0px;
   background: rgba(250, 82, 10, 1);
   background: -moz-linear-gradient(left, rgba(250, 82, 10, 1) 0%, rgba(255, 157, 0, 1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(250, 82, 10, 1)), color-stop(100%, rgba(255, 157, 0, 1)));
@@ -86,7 +86,7 @@
 }
 
 #ki1-fran {
-  width: 285px;
+  width: 0px;
   margin-left: auto;
   background: rgba(113, 206, 239, 1);
   background: -moz-linear-gradient(left, rgba(113, 206, 239, 1) 0%, rgba(255, 157, 0, 1) 0%, rgba(250, 82, 10, 1) 100%);
@@ -99,7 +99,7 @@
 }
 
 #ki2-raul {
-  width: 201px;
+  width: 0px;
   background: rgba(113, 206, 239, 1);
   background: -moz-linear-gradient(left, rgba(113, 206, 239, 1) 0%, rgba(255, 157, 0, 1) 0%, rgba(250, 242, 10, 1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(113, 206, 239, 1)), color-stop(0%, rgba(255, 157, 0, 1)), color-stop(100%, rgba(250, 242, 10, 1)));
@@ -111,7 +111,7 @@
 }
 
 #ki2-fran {
-  width: 201px;
+  width: 0px;
   margin-left: auto;
   background: rgba(250, 242, 10, 1);
   background: -moz-linear-gradient(left, rgba(250, 242, 10, 1) 0%, rgba(255, 157, 0, 1) 100%);
