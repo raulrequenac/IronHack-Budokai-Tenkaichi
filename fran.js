@@ -4,7 +4,7 @@ class Fran extends Fighter {
 
     this.x = 0.9 * this.ctx.canvas.width - this.w;
 
-    this.img.src = "images/fran.png";
+    this.img.src = "images/fran-left.png";
 
     this.keyJump = 38;
     this.keyLeft = 37;
@@ -18,5 +18,16 @@ class Fran extends Fighter {
 
     this.ki1Id = "ki1-fran";
     this.ki2Id = "ki2-fran";
+    this.healthId = "health-fran";
+  }
+
+  draw() {
+    if (this.lookingRight()) {
+      this.img.src = "images/fran-right.png";
+    } else {
+      this.img.src = "images/fran-left.png";
+    }
+
+    super.draw();
   }
 }

@@ -15,6 +15,8 @@ class Game {
 
     this.raul = new Raul(ctx, this._addListener.bind(this));
     this.fran = new Fran(ctx, this._addListener.bind(this));
+    this.raul.setRival(this.fran);
+    this.fran.setRival(this.raul);
   }
 
   run() {
@@ -25,6 +27,9 @@ class Game {
       this._draw();
       this._move();
       this._checkCollisions();
+      if (this.raul.health === 0 || this.fran.health === 0) {
+        this._gameOver();
+      }
     }, 1000 / 60);
   }
 
@@ -35,9 +40,6 @@ class Game {
   _draw() {
     this.raul.draw();
     this.fran.draw();
-
-    this.raul.direction(this.fran);
-    this.fran.direction(this.raul);
   }
 
   _move() {
@@ -46,8 +48,8 @@ class Game {
   }
 
   _checkCollisions() {
-    this.raul.collideRival(this.fran);
-    this.fran.collideRival(this.raul);
+    this.raul.collideRival();
+    this.fran.collideRival();
   }
 
   _addListener(name, fn) {
@@ -63,6 +65,9 @@ class Game {
   _setListeners() {
     document.onkeydown = e => this.onkeyDownListeners.forEach(fn => fn(e));
     document.onkeyup = e => this.onkeyUpListeners.forEach(fn => fn(e));
+  }
+
+  _gameOver() {
 
   }
 }

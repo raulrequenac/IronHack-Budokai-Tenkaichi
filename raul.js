@@ -2,7 +2,7 @@ class Raul extends Fighter {
   constructor(ctx, addListener) {
     super(ctx, addListener);
 
-    this.img.src = "images/raul.png";
+    this.img.src = "images/raul-right.png";
 
     this.keyJump = 87;
     this.keyLeft = 65;
@@ -16,5 +16,16 @@ class Raul extends Fighter {
 
     this.ki1Id = "ki1-raul";
     this.ki2Id = "ki2-raul";
+    this.healthId = "health-raul";
+  }
+
+  draw() {
+    if (this.lookingRight()) {
+      this.img.src = "images/raul-right.png";
+    } else {
+      this.img.src = "images/raul-left.png";
+    }
+
+    super.draw();
   }
 }
