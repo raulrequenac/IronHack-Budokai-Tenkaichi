@@ -27,8 +27,11 @@ class Game {
       this._draw();
       this._move();
       this._checkCollisions();
-      if (this.raul.health === 0 || this.fran.health === 0) {
-        this._gameOver();
+
+      if (this.raul.health === 0) {
+        this._gameOver(this.raul);
+      } else if (this.fran.health === 0) {
+        this._gameOver(this.fran);
       }
     }, 1000 / 60);
   }
@@ -68,6 +71,15 @@ class Game {
   }
 
   _gameOver() {
+    this.audio.pause();
+    clearInterval(this.intervalId);
 
+    this.ctx.font = "40px Comic Sans MS";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(
+      "GAME OVER",
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2
+    );
   }
 }
