@@ -19,8 +19,6 @@ class Fighter {
 
     this.health = 100;
     this.attackStrength = 5;
-    this.energyBlastStrength = 7;
-    this.kamehamehaStrength = 10;
     this.ki = 0;
     this.rival = null;
     this.protected = false;
@@ -143,12 +141,11 @@ class Fighter {
   _energyBlast() {
     this.ki -= 30;
     this._setKi();
-    this.rival.receiveDamage(this.energyBlastStrength);
 
-    if (this._lookingRight) {
-      this.energyBlasts.push(new EnergyBlast(ctx, this.x + this.w, this.y + this.h / 2, this));
+    if (this.lookingRight()) {
+      this.energyBlasts.push(new EnergyBlast(ctx, this.x + this.w, this.y + this.h / 2, this, this.rival));
     } else {
-      this.energyBlasts.push(new EnergyBlast(ctx, this.x, this.y + this.h / 2, this));
+      this.energyBlasts.push(new EnergyBlast(ctx, this.x, this.y + this.h / 2, this, this.rival));
     }
   }
 
@@ -156,10 +153,10 @@ class Fighter {
     this.ki -= 60;
     this._setKi();
 
-    if (this._lookingRight) {
-      this.kamehamehas.push(new Kamehameha(ctx, this.x + this.w, this.y + this.h / 2, this));
+    if (this.lookingRight()) {
+      this.kamehamehas.push(new Kamehameha(ctx, this.x + this.w, this.y + this.h / 2, this, this.rival));
     } else {
-      this.kamehamehas.push(new Kamehameha(ctx, this.x, this.y + this.h / 2, this));
+      this.kamehamehas.push(new Kamehameha(ctx, this.x, this.y + this.h / 2, this, this.rival));
     }
 
     this.rival.receiveDamage(this.kamehamehaStrength);
