@@ -34,8 +34,24 @@ class Kamehameha {
 
       if (this.counter <= 20) {
         this.ctx.drawImage(this.imgStart, this.x, this.y, this.w, this.h);
-        this.ctx.drawImage(this.imgMed, this.x + this.w, this.y, this.w * this.counter, this.h, this.x + this.w, this.y, this.w * 20, this.h);
-        this.ctx.drawImage(this.imgEnd, this.x + this.w + this.w * this.counter, this.y, this.w, this.h);
+        this.ctx.drawImage(
+          this.imgMed,
+          0,
+          0,
+          this.w,
+          this.h,
+          this.x + this.w,
+          this.y,
+          this.w,
+          this.h
+        );
+        this.ctx.drawImage(
+          this.imgEnd,
+          this.x + this.w + this.w,
+          this.y,
+          this.w,
+          this.h
+        );
 
         this.counter++;
       }
@@ -48,7 +64,11 @@ class Kamehameha {
         this.kamehameha.push(this.imgStart);
         this.kamehameha.push(this.imgEnd);
       } else {
-        this.kamehameha = [this.kamehameha[0], this.imgMed, ...this.kamehameha.slice(1)];
+        this.kamehameha = [
+          this.kamehameha[0],
+          this.imgMed,
+          ...this.kamehameha.slice(1)
+        ];
       }
 
       this.kamehameha.forEach((image, i) => {
