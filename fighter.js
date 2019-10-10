@@ -57,6 +57,7 @@ class Fighter {
     this.collision = false;
     this.isDown = false;
     this.isChargingKi = false;
+    this.hasKamehameha = false;
     this.hasJumped = false;
 
     this.energyBlasts = [];
@@ -82,6 +83,8 @@ class Fighter {
     this.ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
     this.energyBlasts.forEach(eb => eb.draw());
     this.kamehamehas.forEach(k => k.draw());
+    this.energyBlasts = this.energyBlasts.filter(eb => eb.isPrinting);
+    this.kamehamehas = this.kamehamehas.filter(k => k.isPrinting);
   }
 
   move() {
@@ -182,7 +185,6 @@ class Fighter {
       this.kamehamehas.push(new Kamehameha(ctx, this.x, this.y + this.h / 2, this, this.rival));
     }
 
-    this.rival.receiveDamage(this.kamehamehaStrength);
   }
 
   _punch() {
@@ -273,7 +275,8 @@ class Fighter {
       this.actions.jump &&
       !this._isJumping() &&
       !this.isDown &&
-      !this.isChargingKi
+      !this.isChargingKi &&
+      !this.hasKamehameha
     ) {
       this.jumpAudio.currentTime = 0;
       this.jumpAudio.play();
@@ -282,7 +285,10 @@ class Fighter {
       this.hasJumped = true;
     }
 
-    if (this.actions.left && !this.isChargingKi) {
+    if (this.actions.left &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this.vx = -5;
     } else if (this.actions.right && !this.isChargingKi) {
       this.vx = 5;
@@ -290,7 +296,9 @@ class Fighter {
       this.vx = 0;
     }
 
-    if (this.actions.chargeKi) {
+    if (this.actions.chargeKi &&
+      !this.hasKamehameha
+    ) {
       this.isChargingKi = true;
       this.chargeKiAudio.play();
       this._chargeKi();
@@ -300,25 +308,42 @@ class Fighter {
       this.isChargingKi = false;
     }
 
-    if (this.actions.protect && !this.isChargingKi) {
+    if (this.actions.protect &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this.protected = true;
     } else {
       this.protected = false;
     }
 
-    if (this.actions.energyBlast && this.ki >= 30 && !this.isChargingKi) {
+    if (this.actions.energyBlast &&
+      this.ki >= 30 &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this._attackAvailable(this._energyBlast.bind(this), 500);
     }
 
-    if (this.actions.kamehameha && this.ki >= 60 && !this.isChargingKi) {
+    if (this.actions.kamehameha &&
+      this.ki >= 60 &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this._attackAvailable(this._kamehameha.bind(this), 3000);
     }
 
-    if (this.actions.punch && !this.isChargingKi) {
+    if (this.actions.punch &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this._attackAvailable(this._punch.bind(this), 500);
     }
 
-    if (this.actions.kick && !this.isChargingKi) {
+    if (this.actions.kick &&
+      !this.isChargingKi &&
+      !this.hasKamehameha
+    ) {
       this._attackAvailable(this._kick.bind(this), 500);
     }
   }
