@@ -8,7 +8,8 @@ class Game {
     this.audio = new Audio("audio/fight.mp3");
     this.audio.loop = true;
 
-    this.gameOverAudio = new Audio("");
+    this.gameOverAudio = new Audio("audio/game-over.mp3");
+    this.gameOverAudio.loop = true;
 
     this.onkeyDownListeners = [];
     this.onkeyUpListeners = [];
@@ -73,6 +74,7 @@ class Game {
   _gameOver() {
     this.audio.pause();
     clearInterval(this.intervalId);
+    this.gameOverAudio.play();
 
     this.ctx.font = "40px Comic Sans MS";
     this.ctx.textAlign = "center";

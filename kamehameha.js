@@ -14,24 +14,28 @@ class Kamehameha {
     this.imgStart = new Image();
     this.imgMed = new Image();
     this.imgEnd = new Image();
+    this.imgMed.src = "images/kamehameha-medium.png";
+
     this.hit = false;
     this.lookingRight = this.fighter.lookingRight();
 
     this.kamehameha = [];
     this.counter = 0;
-    this.tick = 3;
+    this.tick = 1;
+
+    this.explosionAudio = new Audio("audio/explosion.mp3");
   }
 
   draw() {
-    this.ctx.beginPath();
     if (this._collission() && !this.hit) {
+      this.kamehameha = [];
+      this.explosionAudio.currentTime = 0;
+      this.explosionAudio.play();
       this.rival.receiveDamage(this.kamehamehaStrength);
       this.hit = true;
     } else if (this.lookingRight && !this.hit) {
       this.imgStart.src = "images/kamehameha-start-right.png";
-      this.imgMed.src = "images/kamehameha-medium.png";
       this.imgEnd.src = "images/kamehameha-end-right.png";
-
       if (this.counter <= 20) {
         this.ctx.drawImage(this.imgStart, this.x, this.y, this.w, this.h);
         this.ctx.drawImage(
@@ -54,31 +58,29 @@ class Kamehameha {
         );
 
         this.counter++;
+      } else {
+        this.hit = true;
       }
     } else if (!this.lookingRight && !this.hit) {
       this.imgStart.src = "images/kamehameha-start-left.png";
-      this.imgMed.src = "images/kamehameha-medium.png";
       this.imgEnd.src = "images/kamehameha-end-left.png";
-
       if (this.counter <= 20) {
         this.kamehameha.push(this.imgStart);
         this.kamehameha.push(this.imgEnd);
-      } else {
         this.kamehameha = [
           this.kamehameha[0],
           this.imgMed,
           ...this.kamehameha.slice(1)
         ];
-      }
 
-      this.kamehameha.forEach((image, i) => {
-        this.ctx.imageSmoothingEnabled = false;
-        this.ctx.drawImage(image, this.x + this.w * i, this.y, this.w, this.h);
-        this.counter++;
-      });
-
-      if (this._collission()) {
-        this.hit = true;
+        if (this.counter % this.tick === 0) {
+          this.kamehameha.forEach((image, i) => {
+            this.ctx.imageSmoothingEnabled = false;
+            this.ctx.drawImage(image, this.x - this.w * (i + 1), this.y, this.w, this.h);
+            this.counter++;
+          });
+        }
+        this.kamehameha = [];
       }
     }
   }

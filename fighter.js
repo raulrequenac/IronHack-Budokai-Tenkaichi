@@ -57,9 +57,20 @@ class Fighter {
     this.collision = false;
     this.isDown = false;
     this.isChargingKi = false;
+    this.hasJumped = false;
 
     this.energyBlasts = [];
     this.kamehamehas = [];
+
+    this.chargeKiAudio = new Audio("audio/charge-ki.mp3");
+    this.punchAudio = new Audio("audio/punch.mp3");
+    this.kickAudio = new Audio("audio/kick.mp3");
+    this.protectAudio = new Audio("audio/protect.mp3");
+    this.energyBlastAudio = new Audio("audio/energy-blast.mp3");
+    this.kamehamehaAudio = new Audio("audio/kamehameha.mp3");
+    this.jumpAudio = new Audio("audio/jump.mp3");
+    this.landingAudio = new Audio("audio/landing.mp3");
+    this.missedAudio = new Audio("audio/missed.mp3");
   }
 
   setRival(rival) {
@@ -91,6 +102,12 @@ class Fighter {
     } else {
       this.y = this.y0;
       this.vy = 0;
+    }
+
+    if (this.y0 === this.floor - this.h && this.y === this.y0 && this.hasJumped) {
+      this.landingAudio.currentTime = 0;
+      this.landingAudio.play();
+      this.hasJumped = false;
     }
 
     this._playActions();
@@ -139,6 +156,9 @@ class Fighter {
   }
 
   _energyBlast() {
+    this.energyBlastAudio.currentTime = 0;
+    this.energyBlastAudio.play();
+
     this.ki -= 30;
     this._setKi();
 
@@ -150,6 +170,9 @@ class Fighter {
   }
 
   _kamehameha() {
+    this.kamehamehaAudio.currentTime = 0;
+    this.kamehamehaAudio.play();
+
     this.ki -= 60;
     this._setKi();
 
@@ -162,9 +185,37 @@ class Fighter {
     this.rival.receiveDamage(this.kamehamehaStrength);
   }
 
-  _attack() {
+  _punch() {
     if (this.collision) {
+      if (!this.rival.protected) {
+        this.punchAudio.currentTime = 0;
+        this.punchAudio.play();
+      } else {
+        this.protectAudio.currentTime = 0;
+        this.protectAudio.play();
+      }
+
       this.rival.receiveDamage(this.attackStrength);
+    } else {
+      this.missedAudio.currentTime = 0;
+      this.missedAudio.play();
+    }
+  }
+
+  _kick() {
+    if (this.collision) {
+      if (!this.rival.protected) {
+        this.kickAudio.currentTime = 0;
+        this.kickAudio.play();
+      } else {
+        this.protectAudio.currentTime = 0;
+        this.protectAudio.play();
+      }
+
+      this.rival.receiveDamage(this.attackStrength);
+    } else {
+      this.missedAudio.currentTime = 0;
+      this.missedAudio.play();
     }
   }
 
@@ -224,8 +275,11 @@ class Fighter {
       !this.isDown &&
       !this.isChargingKi
     ) {
+      this.jumpAudio.currentTime = 0;
+      this.jumpAudio.play();
       this.y -= 10;
       this.vy -= 20;
+      this.hasJumped = true;
     }
 
     if (this.actions.left && !this.isChargingKi) {
@@ -238,8 +292,11 @@ class Fighter {
 
     if (this.actions.chargeKi) {
       this.isChargingKi = true;
+      this.chargeKiAudio.play();
       this._chargeKi();
     } else {
+      this.chargeKiAudio.pause();
+      this.chargeKiAudio.currentTime = 0;
       this.isChargingKi = false;
     }
 
@@ -257,11 +314,12 @@ class Fighter {
       this._attackAvailable(this._kamehameha.bind(this), 3000);
     }
 
-    if (
-      (this.actions.punch || this.actions.kick) &&
-      !this.isChargingKi
-    ) {
-      this._attackAvailable(this._attack.bind(this), 500);
+    if (this.actions.punch && !this.isChargingKi) {
+      this._attackAvailable(this._punch.bind(this), 500);
+    }
+
+    if (this.actions.kick && !this.isChargingKi) {
+      this._attackAvailable(this._kick.bind(this), 500);
     }
   }
 

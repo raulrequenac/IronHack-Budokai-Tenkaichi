@@ -5,7 +5,7 @@ class EnergyBlast {
     this.y = y;
     this.fighter = fighter;
     this.rival = rival;
-    
+
     this.w = 104;
     this.h = 64;
     this.vx = 10;
@@ -14,11 +14,14 @@ class EnergyBlast {
     this.img = new Image();
     this.hit = false;
     this.lookingRight = this.fighter.lookingRight();
+    this.explosionAudio = new Audio("audio/explosion.mp3");
   }
 
   draw() {
     this.ctx.beginPath();
     if (this._collission() && !this.hit) {
+      this.explosionAudio.currentTime = 0;
+      this.explosionAudio.play();
       this.rival.receiveDamage(this.energyBlastStrength);
       this.hit = true;
     } else if (this.lookingRight && !this.hit) {
@@ -40,12 +43,12 @@ class EnergyBlast {
     }
   }
 
-_collission() {
-  const r = this.rival;
+  _collission() {
+    const r = this.rival;
 
-  const colX = this.x + this.w >= r.x && this.x <= r.x + r.w;
-  const colY = this.y + this.h >= r.y && this.y <= r.y + r.h;
+    const colX = this.x + this.w >= r.x && this.x <= r.x + r.w;
+    const colY = this.y + this.h >= r.y && this.y <= r.y + r.h;
 
-  return colX && colY;
-}
+    return colX && colY;
+  }
 }
