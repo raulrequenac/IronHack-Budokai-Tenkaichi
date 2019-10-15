@@ -25,6 +25,9 @@ class Fighter {
     this.canAttack = true;
 
     this.img = new Image();
+    this.moveLeft = "";
+    this.moveRight = "";
+    this.stand = "";
 
     this.keyJump = 32;
     this.keyLeft = 32;
@@ -72,6 +75,7 @@ class Fighter {
     this.jumpAudio = new Audio("audio/jump.mp3");
     this.landingAudio = new Audio("audio/landing.mp3");
     this.missedAudio = new Audio("audio/missed.mp3");
+    this.moveAudio = new Audio("audio/move.mp3");
   }
 
   setRival(rival) {
@@ -107,7 +111,11 @@ class Fighter {
       this.vy = 0;
     }
 
-    if (this.y0 === this.floor - this.h && this.y === this.y0 && this.hasJumped) {
+    if (
+      this.y0 === this.floor - this.h &&
+      this.y === this.y0 &&
+      this.hasJumped
+    ) {
       this.landingAudio.currentTime = 0;
       this.landingAudio.play();
       this.hasJumped = false;
@@ -166,9 +174,19 @@ class Fighter {
     this._setKi();
 
     if (this.lookingRight()) {
-      this.energyBlasts.push(new EnergyBlast(ctx, this.x + this.w, this.y + this.h / 2, this, this.rival));
+      this.energyBlasts.push(
+        new EnergyBlast(
+          ctx,
+          this.x + this.w,
+          this.y + this.h / 2,
+          this,
+          this.rival
+        )
+      );
     } else {
-      this.energyBlasts.push(new EnergyBlast(ctx, this.x, this.y + this.h / 2, this, this.rival));
+      this.energyBlasts.push(
+        new EnergyBlast(ctx, this.x, this.y + this.h / 2, this, this.rival)
+      );
     }
   }
 
@@ -180,11 +198,20 @@ class Fighter {
     this._setKi();
 
     if (this.lookingRight()) {
-      this.kamehamehas.push(new Kamehameha(ctx, this.x + this.w, this.y + this.h / 2, this, this.rival));
+      this.kamehamehas.push(
+        new Kamehameha(
+          ctx,
+          this.x + this.w,
+          this.y + this.h / 2,
+          this,
+          this.rival
+        )
+      );
     } else {
-      this.kamehamehas.push(new Kamehameha(ctx, this.x, this.y + this.h / 2, this, this.rival));
+      this.kamehamehas.push(
+        new Kamehameha(ctx, this.x, this.y + this.h / 2, this, this.rival)
+      );
     }
-
   }
 
   _punch() {
@@ -285,20 +312,22 @@ class Fighter {
       this.hasJumped = true;
     }
 
-    if (this.actions.left &&
-      !this.isChargingKi &&
-      !this.hasKamehameha
-    ) {
+    if (this.actions.left && !this.isChargingKi && !this.hasKamehameha) {
+      this.moveAudio.currentTime = 0;
+      this.moveAudio.play();
       this.vx = -5;
+      //this.img.src = this.moveLeft;
     } else if (this.actions.right && !this.isChargingKi) {
+      this.moveAudio.currentTime = 0;
+      this.moveAudio.play();
       this.vx = 5;
+      //this.img.src = this.moveRight;
     } else {
       this.vx = 0;
+      //this.img.src = this.stand;
     }
 
-    if (this.actions.chargeKi &&
-      !this.hasKamehameha
-    ) {
+    if (this.actions.chargeKi && !this.hasKamehameha) {
       this.isChargingKi = true;
       this.chargeKiAudio.play();
       this._chargeKi();
@@ -308,16 +337,14 @@ class Fighter {
       this.isChargingKi = false;
     }
 
-    if (this.actions.protect &&
-      !this.isChargingKi &&
-      !this.hasKamehameha
-    ) {
+    if (this.actions.protect && !this.isChargingKi && !this.hasKamehameha) {
       this.protected = true;
     } else {
       this.protected = false;
     }
 
-    if (this.actions.energyBlast &&
+    if (
+      this.actions.energyBlast &&
       this.ki >= 30 &&
       !this.isChargingKi &&
       !this.hasKamehameha
@@ -325,7 +352,8 @@ class Fighter {
       this._attackAvailable(this._energyBlast.bind(this), 500);
     }
 
-    if (this.actions.kamehameha &&
+    if (
+      this.actions.kamehameha &&
       this.ki >= 60 &&
       !this.isChargingKi &&
       !this.hasKamehameha
@@ -333,17 +361,11 @@ class Fighter {
       this._attackAvailable(this._kamehameha.bind(this), 3000);
     }
 
-    if (this.actions.punch &&
-      !this.isChargingKi &&
-      !this.hasKamehameha
-    ) {
+    if (this.actions.punch && !this.isChargingKi && !this.hasKamehameha) {
       this._attackAvailable(this._punch.bind(this), 500);
     }
 
-    if (this.actions.kick &&
-      !this.isChargingKi &&
-      !this.hasKamehameha
-    ) {
+    if (this.actions.kick && !this.isChargingKi && !this.hasKamehameha) {
       this._attackAvailable(this._kick.bind(this), 500);
     }
   }
@@ -351,15 +373,22 @@ class Fighter {
   collideRival() {
     let colYUp = this.y <= this.rival.y && this.y + this.h >= this.rival.y;
     let colYDown =
-      this.y <= this.rival.y + this.rival.h && this.y + this.h >= this.rival.y + this.rival.h;
+      this.y <= this.rival.y + this.rival.h &&
+      this.y + this.h >= this.rival.y + this.rival.h;
     let colY = colYUp || colYDown;
 
-    let colXLeft = this.x + this.w >= this.rival.x + this.rival.w &&
+    let colXLeft =
+      this.x + this.w >= this.rival.x + this.rival.w &&
       this.x <= this.rival.x + this.rival.w;
     let colXRight = this.x + this.w >= this.rival.x && this.x <= this.rival.x;
     let colX = colXLeft || colXRight;
 
-    if (this.actions.right && colXRight && colY && this.y > this.rival.y - this.h) {
+    if (
+      this.actions.right &&
+      colXRight &&
+      colY &&
+      this.y > this.rival.y - this.h
+    ) {
       this.actions.right = false;
       this.vx = 0;
       this.x = this.rival.x - this.w;

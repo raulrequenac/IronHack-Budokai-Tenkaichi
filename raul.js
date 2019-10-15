@@ -2,6 +2,10 @@ class Raul extends Fighter {
   constructor(ctx, addListener) {
     super(ctx, addListener);
 
+    this.moveLeft = "images/raul-fly-back-right.png";
+    this.moveRight = "images/raul-fly-forward-right.png";
+    this.stand = "images/raul-right.png";
+    this.img.src = this.stand;
     this.img.src = "images/raul-right.png";
 
     this.keyJump = 87;

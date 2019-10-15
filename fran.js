@@ -4,7 +4,10 @@ class Fran extends Fighter {
 
     this.x = 0.9 * this.ctx.canvas.width - this.w;
 
-    this.img.src = "images/fran-left.png";
+    this.moveLeft = "";
+    this.moveRight = "";
+    this.stand = "images/fran-left.png";
+    this.img.src = this.stand;
 
     this.keyJump = 38;
     this.keyLeft = 37;
